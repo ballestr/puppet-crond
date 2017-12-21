@@ -11,15 +11,15 @@
 ##        jobs => "$t * * * * root /var/sbin/check_kipmi.sh",
 ##    }
 ##
-define crond::job($jobs,$comment,$mail="root") { 
+define crond::job($jobs,$comment,$mail="root") {
     ## sanity check to avoid UNSAFE failures
     if ($mail =~ / /) {
         fail("crond::job $name : UNSAFE, bad characters [ ] in mail=>'$mail'")
     }
     $callername=$caller_module_name?{""=>"called from node, no module",default=>"called from module $caller_module_name"}
     file {
-	"/etc/cron.d/${name}_puppetcron":
-	owner=>root,group=>root,
-	content=>template("crond/job.erb"),
+        "/etc/cron.d/${name}_puppetcron":
+        owner=>root,group=>root,
+        content=>template("crond/job.erb"),
     }
 }
